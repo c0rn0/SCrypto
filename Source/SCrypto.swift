@@ -762,3 +762,15 @@ public extension Data {
     }
 
 }
+
+public extension Collection where Iterator.Element == UInt8 {
+    
+    public func encrypt(_ algorithm: Cipher.Algorithm, key: Cipher.Key, iv: Cipher.IV, options: Cipher.Options? = nil) throws -> [UInt8] {
+        
+        let noPadding = Cipher.Options(rawValue: Cipher.Options.RawValue(0x0000))
+        let cipher = Cipher(algorithm: algorithm, options: noPadding, iv: iv)
+        return try cipher.encrypt(self as! [UInt8], key: key)
+        
+    }
+    
+}
