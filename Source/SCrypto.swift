@@ -648,6 +648,12 @@ public extension Data {
         let decryptedBytes = try cipher.decrypt(self.bytesArray(), key: key.bytesArray())
         return Data(bytes: UnsafePointer<UInt8>(decryptedBytes), count: decryptedBytes.count)
     }
+    
+    public func decryptAES(key: [UInt8], iv: [UInt8]) throws -> [UInt8] {
+        let noPadding = Cipher.Options(rawValue: Cipher.Options.RawValue(0x0000))
+        let cipher = Cipher(algorithm: .aes, options: noPadding, iv: iv)
+        return try cipher.decrypt(self.bytesArray(), key: key)
+    }
 
 }
 
